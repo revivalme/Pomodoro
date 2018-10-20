@@ -38,7 +38,22 @@
     <section id="todo-block" class="card bg-primary mt-5">
       <div class="card-header text-center">TODO (1h 15min)</div>
       <div class="card-body p-5">
-        
+        <!-- Form -->
+        <form id="form" class="form-row">
+          <div class="col-2">
+            <input list=languages class="form-control" placeholder="Category">
+            <datalist id=languages>
+              <option value="Work"></option>
+              <option value="Personal"></option>
+            </datalist> 
+          </div>
+          <div class="col-8">
+            <input type="text" class="form-control" placeholder="Learn something new">
+          </div>
+          <div class="col">
+            <button type="submit" class="btn btn-success w-100">Add new</button>
+          </div>
+        </form>
       </div>
     </section>
   </div>
