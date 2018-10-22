@@ -41,14 +41,14 @@
         <!-- Form -->
         <form id="form" class="form-row">
           <div class="col-2">
-            <input list=languages class="form-control" placeholder="Category">
+            <input list=languages class="form-control" placeholder="Category" id="input-category">
             <datalist id=languages>
               <option value="Work"></option>
               <option value="Personal"></option>
             </datalist> 
           </div>
           <div class="col-8">
-            <input type="text" class="form-control" placeholder="Learn something new">
+            <input type="text" class="form-control" placeholder="Learn something new" id="input-descr">
           </div>
           <div class="col">
             <button type="submit" class="btn btn-success w-100">Add new</button>
@@ -66,19 +66,8 @@
           </thead>
           <tbody>
             <tr>
-              <td>Work</td>
-              <td>Create design like voscreen.com</td>
-              <td class="d-flex justify-content-end align-items-center">
-                <i class="far fa-star mr-3"></i>
-                <i class="fas fa-check mr-3 text-success"></i>
-                <i class="fas fa-minus mr-3 text-danger"></i>
-                <i class="fas fa-edit mr-4 text-dark"></i>
-                <span>04:30 PM</span>
-              </td>
-            </tr>
-            <tr>
-              <td>Work</td>
-              <td>Create design like voscreen.com</td>
+              <td>Personal</td>
+              <td>Do something</td>
               <td class="d-flex justify-content-end align-items-center">
                 <i class="far fa-star mr-3"></i>
                 <i class="fas fa-check mr-3 text-success"></i>
