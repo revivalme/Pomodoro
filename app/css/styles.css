@@ -1,0 +1,23 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 76px; /* Margin bottom by footer height */
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 46px;
+  line-height: 46px;
+  background-color: #f5f5f5;
+}
+/* ------------------------------------------------- */
+
+
+.btn {
+  width: 150px;
+}
