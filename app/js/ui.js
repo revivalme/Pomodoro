@@ -49,4 +49,24 @@ class UI {
     const table = tableElement.querySelector('tbody');
     table.appendChild(taskElement);
   }
+
+  showAlert(text, className) {
+    // create alert
+    const alert = document.createElement('div');
+    alert.textContent = text;
+    alert.className = `alert ${className}`;
+    // Get alerts NodeElement
+    const alerts = document.querySelector('#alerts');
+    alerts.appendChild(alert);
+    // Clear alert after 1.5s
+    setTimeout(this.clearAlert, 1500);
+  }
+
+  clearAlert() {
+    const alertEl = document.querySelector('.alert');
+    // If alert exist - remove it
+    if(alertEl) {
+      alertEl.remove();
+    }
+  }
 }
