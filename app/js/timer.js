@@ -1,22 +1,18 @@
 class Timer {
   // Default time = 25min
   constructor(ms = 1500 * 1000) {
-    this.value = new Date(ms);
+    this.default = new Date(ms);
+    this.diff;
+    this.end;
     this.status = 0;
-    this.default = ms;
   }
 
-  getTime() {
-    return `${this.zeroBase(this.value.getMinutes())} : ${this.zeroBase(this.value.getSeconds())}`;
+  getTime(type) {
+    return `${this.zeroBase(this[type].getMinutes())} : ${this.zeroBase(this[type].getSeconds())}`;
   }
 
   setDefaultTime(ms) {
-    this.value = new Date(ms);
-    this.default = ms;
-  }
-
-  cutTime(sec) {
-    this.value = new Date(this.value.getTime() - sec * 1000);
+    this.default = new Date(ms);
   }
 
   start() {
@@ -28,27 +24,32 @@ class Timer {
       startBtn.textContent = 'Pause';
       stopBtn.textContent = 'Stop';
 
+      if(this.diff === undefined) {
+        this.diff = this.default;
+      }
+      // Set end time
+      this.end = new Date(new Date().getTime() + this.diff.getTime());
+
       // Declare this for async func
       const self = this;
-
-      // Async recursion func
-      setTimeout(function timerCycle() {
-        // If timer active
+      function step() {
+        // If timer is active
         if(self.status) {
-          // If timer milliseconds > 0
-          if(self.value.getTime() > 0) {
-            // Subtract 1 second
-            self.cutTime(1);
-
-            // Update UI
-            ui.updateTimer(`${self.getTime()}`);
-            setTimeout(timerCycle, 1000);
+          // Difference between end and now
+          self.diff = new Date(self.end.getTime() - new Date().getTime());
+          if(self.diff.getTime() > 0) {
+            ui.updateTime(`${self.getTime('diff')}`);
           } else {
-            // Time left - reset
+            // Time left - clear interval and reset
+            clearInterval(timerId);            
             self.reset();
           }
+        } else {
+          clearInterval(timerId);
         }
-      }, 0);
+      }
+      
+      const timerId = setInterval(step, 100);
     } else {
       // Change status
       this.status = 0;
@@ -70,9 +71,9 @@ class Timer {
     startBtn.textContent = 'Start';
     stopBtn.textContent = 'Stop';
     // Change timer value to default
-    this.value = new Date(this.default);
+    this.diff = new Date(this.default);
     // Update UI
-    ui.updateTimer(`${this.getTime()}`);
+    ui.updateTime(`${this.getTime('default')}`);
   }
 
   // Pass minutes or seconds val

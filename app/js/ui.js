@@ -1,5 +1,5 @@
 class UI {
-  updateTimer(val) {
+  updateTime(val) {
     document.querySelector('#timer').textContent = val;
   }
 
