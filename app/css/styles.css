@@ -21,3 +21,11 @@ footer {
 .btn {
   width: 150px;
 }
+
+#alerts {
+  z-index: 1;
+  position: fixed;
+  right: 15px;
+  margin-top: 10px;
+  width: 250px;
+}
