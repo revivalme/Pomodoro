@@ -31,8 +31,11 @@ function addTask(e) {
     // Clear inputs
     taskCategory.value = '';
     taskDescr.value = '';
+    // Show alert
+    ui.showAlert('Task added', 'alert-success');
   } else {
     // Show alert
+    ui.showAlert('Task must contain info', 'alert-danger')
   }
 
   // Prevent default event
