@@ -5,10 +5,10 @@ class UI {
 
   createTask(task) {
     // Create elements
-    const taskContainer = document.createElement('tr'),
-    taskCategory = document.createElement('td'),
-    taskDescription = document.createElement('td'),
-    taskOptions = document.createElement('td');
+    const taskContainer = document.createElement('tr');
+    const taskCategory = document.createElement('td');
+    const taskDescription = document.createElement('td');
+    const taskOptions = document.createElement('td');
 
     taskCategory.textContent = task.category;
     taskDescription.textContent = task.description;
