@@ -5,3 +5,8 @@
 
 .text-primary{color: #fff !important}
 .text-secondary{color: #9b9b9b !important}
+
+.alert { border: 0; color: #141414}
+.alert-success{background-color:#95eab8   !important}
+.alert-danger{background-color:#ff7a7a   !important}
+.alert-info{background-color:#94b3d1    !important}
