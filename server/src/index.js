@@ -14,7 +14,6 @@ app.server = http.createServer(app);
 
 app.use(morgan('dev'));
 
-
 app.use(cors({
     exposedHeaders: "*"
 }));
@@ -24,6 +23,8 @@ app.use(bodyParser.json({
 }));
 
 app.set('root', __dirname);
+
+app.set('view engine', 'ejs');
 
 //Connect to the database.
 
