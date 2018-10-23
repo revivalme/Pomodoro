@@ -1,8 +1,11 @@
+import Task from './js/task';
+import Timer from './js/timer';
+import UI from './js/ui';
 // Init UI
 const ui = new UI;
 // Init timer
 const timer = new Timer;
-
+console.log('ok')
 // DOM Elements
 const startBtn = document.querySelector('#btnStart');
 const stopBtn = document.querySelector('#btnStop');

@@ -1,4 +1,4 @@
-class UI {
+export default class UI {
   updateTime(val) {
     document.querySelector('#timer').textContent = val;
   }

@@ -1,4 +1,4 @@
-class Task {
+export default class Task {
   constructor(category, description, done = 0) {
     this.category = category;
     this.description = description;

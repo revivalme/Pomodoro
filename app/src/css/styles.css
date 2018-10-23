@@ -1,12 +1,12 @@
-/* Sticky footer styles
--------------------------------------------------- */
 html {
   position: relative;
   min-height: 100%;
 }
+
 body {
-  margin-bottom: 76px; /* Margin bottom by footer height */
+  margin-bottom: 76px;
 }
+
 footer {
   position: absolute;
   bottom: 0;
@@ -15,8 +15,6 @@ footer {
   line-height: 46px;
   background-color: #f5f5f5;
 }
-/* ------------------------------------------------- */
-
 
 .btn {
   width: 150px;

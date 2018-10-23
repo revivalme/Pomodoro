@@ -1,4 +1,4 @@
-class Timer {
+export default class Timer {
   // Default time = 25min
   constructor(ms = 1500 * 1000) {
     this.default = new Date(ms);
