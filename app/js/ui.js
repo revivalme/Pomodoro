@@ -42,7 +42,11 @@ class UI {
   }
 
   deleteTask(taskElement) {
-    taskElement.remove();
+    taskElement.style.opacity = 0;
+
+    setTimeout(() => {
+      taskElement.remove();
+    }, 500);
   }
 
   putTask(taskElement, tableElement) {

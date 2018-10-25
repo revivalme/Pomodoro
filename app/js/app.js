@@ -7,6 +7,7 @@ const timer = new Timer;
 const startBtn = document.querySelector('#btnStart');
 const stopBtn = document.querySelector('#btnStop');
 const form = document.querySelector('#form');
+const todoTable = document.querySelector('#todoTable');
 
 // Events
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
 startBtn.addEventListener('click', () => timer.start());
 stopBtn.addEventListener('click', () => timer.stop());
 form.addEventListener('submit', (e) => addTask(e));
+todoTable.addEventListener('click', (e) => {
+  // If target click is trash icon
+  if(e.target.classList.contains('fa-trash-alt')) {
+    ui.deleteTask(e.target.parentElement.parentElement);
+  }
+});
 
 // Add task
 function addTask(e) {
