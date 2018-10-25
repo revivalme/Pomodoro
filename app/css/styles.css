@@ -29,3 +29,15 @@ footer {
   margin-top: 10px;
   width: 250px;
 }
+
+i {cursor: pointer;}
+
+i:not(:last-child) {
+  opacity: 0;
+  transition: .4s ease all;
+}
+
+tr:hover i:not(:last-child) {
+  opacity: 1;
+  margin-right: 13px;
+}
