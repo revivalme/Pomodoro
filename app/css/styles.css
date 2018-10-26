@@ -40,8 +40,5 @@ i:not(:last-child) {
 tr:hover i:not(:last-child) {
   opacity: 1;
   margin-right: 13px;
-}
-
-tr {
   transition: .4s ease all;
 }
