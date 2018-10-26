@@ -1,6 +1,7 @@
-import Task from './js/task';
-import Timer from './js/timer';
-import UI from './js/ui';
+import '../sass/main.sass';
+import Task from './task';
+import Timer from  './timer';
+import UI from './ui';
 // Init UI
 const ui = new UI;
 // Init timer
