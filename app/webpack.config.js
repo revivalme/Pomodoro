@@ -27,7 +27,7 @@ const config = {
         loader: 'babel-loader'
       }]
     }, {
-      test: /\.scss$/,
+      test: /\.sass$/,
       exclude: /node_modules/,
       use: [
         isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
