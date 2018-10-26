@@ -27,11 +27,11 @@ export default class UI {
 
 
     taskOptions.innerHTML = `
-      <i class="far fa-star mr-3"></i>
-      <i class="fas fa-check mr-3 text-success"></i>
-      <i class="fas fa-minus mr-3 text-danger"></i>
-      <i class="fas fa-edit mr-4 text-dark"></i>
+      <i class="far fa-star"></i>
+      <i class="fas fa-check text-success"></i>
+      <i class="fas fa-trash-alt text-danger"></i>
       <span>${time}</span>
+      <i class="fas fa-edit ml-3 text-dark"></i>
     `;
 
     taskContainer.appendChild(taskCategory);
@@ -42,7 +42,11 @@ export default class UI {
   }
 
   deleteTask(taskElement) {
-    taskElement.remove();
+    taskElement.style.opacity = 0;
+
+    setTimeout(() => {
+      taskElement.remove();
+    }, 500);
   }
 
   putTask(taskElement, tableElement) {
