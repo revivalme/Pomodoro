@@ -2,7 +2,10 @@ import '../sass/main.sass';
 import Task from './task';
 import Timer from  './timer';
 import UI from './ui';
+import Store from './store';
 
+// Init Local Storage
+const store = new Store();
 // Init UI
 const ui = new UI;
 // Init timer
@@ -16,6 +19,10 @@ const todoTable = document.querySelector('#todoTable');
 // Events
 document.addEventListener('DOMContentLoaded', () => {
   ui.updateTime(`${timer.getTime('default')}`);
+
+  // Update tasks
+  const tasks = store.getTasks();
+  tasks.forEach(task => ui.putTask(ui.createTask(task), todoTable));
 })
 startBtn.addEventListener('click', () => timer.start());
 stopBtn.addEventListener('click', () => timer.stop());
@@ -23,7 +30,40 @@ form.addEventListener('submit', (e) => addTask(e));
 todoTable.addEventListener('click', (e) => {
   // If target click is trash icon
   if(e.target.classList.contains('fa-trash-alt')) {
-    ui.deleteTask(e.target.parentElement.parentElement);
+    const taskEl = e.target.parentElement.parentElement;
+    // Delete from Local Storage
+    store.deleteTask(taskEl.id);
+    // Delete from UI
+    ui.deleteTask(taskEl);
+  }
+  // If target click is edit icon
+  if(e.target.classList.contains('fa-edit')) {
+    const taskEl = e.target.parentElement.parentElement;
+    const task = store.getTask(taskEl.id);
+    const editTaskEl = ui.createEditTask(task);
+    taskEl.parentNode.replaceChild(editTaskEl, taskEl);
+  }
+  // If target click is save button
+  if(e.target.classList.contains('save')) {
+    const taskEl = e.target.parentElement.parentElement;
+    const taskCategory = taskEl.querySelector('.edit-category').value;
+    const taskDescr = taskEl.querySelector('.edit-description').value;
+    // Update data in Local Storage
+    store.updateTask(taskEl.id, taskCategory, taskDescr);
+    // Change UI
+    const newTaskEl = ui.createTask(store.getTask(taskEl.id));
+    taskEl.parentNode.replaceChild(newTaskEl, taskEl);
+    // Show alert
+    ui.showAlert('Task edited', 'alert-success');
+  }
+  // If target click is cancel button
+  if(e.target.classList.contains('cancel')) {
+    const taskEl = e.target.parentElement.parentElement;
+    // Change UI
+    const newTaskEl = ui.createTask(store.getTask(taskEl.id));
+    taskEl.parentNode.replaceChild(newTaskEl, taskEl);
+    // Show alert
+    ui.showAlert('Edit task cancelled', 'alert-info');
   }
 });
 
@@ -78,8 +118,10 @@ function addTask(e) {
     const table = document.querySelector('#todoTable');
     // Create task obj
     const task = new Task(taskCategory.value, taskDescr.value);
-    // Put new task to todoTable
+    // Put new task to UI
     ui.putTask(ui.createTask(task), table);
+    // Put new task to Local Storage
+    store.addTask(task);
     // Clear inputs
     taskCategory.value = '';
     taskDescr.value = '';
