@@ -10,12 +10,13 @@ export default class UI {
     const taskDescription = document.createElement('td');
     const taskOptions = document.createElement('td');
 
+    taskContainer.id = task.id;
     taskCategory.textContent = task.category;
     taskDescription.textContent = task.description;
     taskOptions.className = 'd-flex justify-content-end align-items-center';
 
     // Get time in AM PM format
-    let time = new Date().toLocaleString('en-US', { 
+    let time = new Date(task.addTime).toLocaleString('en-US', { 
       hour: '2-digit',
       minute: '2-digit'
     });
@@ -39,6 +40,26 @@ export default class UI {
     taskContainer.appendChild(taskOptions);
 
     return taskContainer;
+  }
+
+  createEditTask(task) {
+    // Create elements
+    const editContainer = document.createElement('tr');
+    editContainer.id = task.id;
+    editContainer.innerHTML = `
+      <td>
+        <input class="form-control edit-category" value="${task.category}">
+      </td>
+      <td>
+        <input class="form-control edit-description" value="${task.description}">
+      </td>
+      <td>
+        <button class="btn btn-success save" style="width: calc(48%); margin-right: 2%;">Save</button>
+        <button class="btn btn-danger cancel" style="width: calc(48%);">Cancel</button>
+      </td>
+    `;
+
+    return editContainer;
   }
 
   deleteTask(taskElement) {
