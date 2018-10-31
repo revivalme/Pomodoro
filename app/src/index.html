@@ -24,6 +24,9 @@
         <!-- Timer Section -->
         <section id="timer-block" class="card mt-5 bg-primary text-center">
           <div class="card-body">
+            <div class="settings">
+              <i class="fas fa-cog" data-toggle="modal" data-target="#settingsModal"></i>
+            </div>
             <h1 id="timer"></h1>
             <div class="buttons">
               <button type="button" id="btnStart" class="btn btn-success btn-lg m-3 timerBtn">Start</button>
@@ -88,5 +91,72 @@
       &copy; Zootopia Studios
     </div>
   </footer>
+
+  <!-- Settings Modal -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content bg-primary text-light">
+        <div class="modal-header bg-secondary border-0">
+          <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs border-bottom-1 border-secondary" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#settingsTimer">Timer</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#settingsNotifications">Notifications</a>
+            </li>
+          </ul>
+          
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div id="settingsTimer" class="container tab-pane active"><br>
+              <div class="form-group row">
+                <label for="pomodoroDuration" class="col-5 col-form-label">Pomodoro duration</label>
+                <div class="col-7">
+                  <input type="number" class="form-control" id="pomodoroDuration" value="25">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="shortBreakDuration" class="col-5 col-form-label">Short break duration</label>
+                <div class="col-7">
+                  <input type="number" class="form-control" id="shortBreakDuration" value="5">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="longBreakDuration" class="col-5 col-form-label">Long break duration</label>
+                <div class="col-7">
+                  <input type="number" class="form-control" id="longBreakDuration" value="15">
+                </div>
+              </div>
+            </div>
+            <div id="settingsNotifications" class="container tab-pane fade"><br>
+              <div class="form-group row">
+                <label for="volumeValue" class="col-5 col-form-label">Volume</label>
+                <div class="col-7">
+                  <select class="custom-select" id="volumeValue">
+                    <option value="0">0%</option>
+                    <option value="25">25%</option>
+                    <option value="50" selected>50%</option>
+                    <option value="75">75%</option>
+                    <option value="100">100%</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-top-1 border-secondary">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" id="settingsModalSaveBtn" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

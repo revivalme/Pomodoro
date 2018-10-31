@@ -1,3 +1,5 @@
+import 'bootstrap/js/dist/modal';
+import 'bootstrap/js/dist/tab';
 import '../sass/main.sass';
 import { startBtn, stopBtn, form, todoTable } from './domVars';
 import Task from './task';
