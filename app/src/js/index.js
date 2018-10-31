@@ -1,4 +1,5 @@
 import '../sass/main.sass';
+import { startBtn, stopBtn, form, todoTable } from './domVars';
 import Task from './task';
 import Timer from  './timer';
 import UI from './ui';
@@ -10,11 +11,6 @@ const store = new Store();
 const ui = new UI;
 // Init timer
 const timer = new Timer;
-// DOM Elements
-const startBtn = document.querySelector('#btnStart');
-const stopBtn = document.querySelector('#btnStop');
-const form = document.querySelector('#form');
-const todoTable = document.querySelector('#todoTable');
 
 // Events
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,3 +1,9 @@
+import { startBtn, stopBtn } from './domVars';
+import UI from './ui';
+
+// Init UI object
+const ui = new UI;
+
 export default class Timer {
   // Default time = 25min
   constructor(ms = 1500 * 1000) {
