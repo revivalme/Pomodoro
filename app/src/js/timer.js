@@ -31,6 +31,7 @@ export default class Timer {
       // Change buttons text
       startBtn.textContent = 'Pause';
       stopBtn.textContent = 'Stop';
+      stopBtn.disabled = false;
 
       if(this.diff === undefined) {
         this.diff = this.default;
@@ -85,6 +86,7 @@ export default class Timer {
     // Change buttons text
     startBtn.textContent = 'Start';
     stopBtn.textContent = 'Stop';
+    stopBtn.disabled = true;
     // Change timer value to default
     this.diff = new Date(this.default);
     // Update UI
