@@ -41,12 +41,12 @@ module.exports = {
         use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"]
       },
       {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(woff(2)?|ttf|eot|svg|png|jpg|gif|mp3)$/,
         use: [{
             loader: 'file-loader',
             options: {
                 name: '[name].[ext]',
-                outputPath: 'fonts/'
+                outputPath: 'assets/'
             }
         }]
       }
