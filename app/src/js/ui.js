@@ -2,6 +2,10 @@ export default class UI {
   updateTime(val) {
     document.querySelector('#timer').textContent = val;
   }
+ 
+  showHide(tableElement) {
+    tableElement.classList.toggle('d-none');
+  }
 
   createTask(task) {
     // Create elements
@@ -75,7 +79,7 @@ export default class UI {
     table.appendChild(taskElement);
   }
 
-  showAlert(text, className) {
+  showAlert(text, className, hideTime = 1500) {
     // create alert
     const alert = document.createElement('div');
     alert.textContent = text;
@@ -84,7 +88,7 @@ export default class UI {
     const alerts = document.querySelector('#alerts');
     alerts.appendChild(alert);
     // Clear alert after 1.5s
-    setTimeout(this.clearAlert, 1500);
+    setTimeout(this.clearAlert, hideTime);
   }
 
   clearAlert() {

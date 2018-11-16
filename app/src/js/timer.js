@@ -6,11 +6,12 @@ const ui = new UI;
 
 export default class Timer {
   // Default time = 25min
-  constructor(ms = 1500 * 1000) {
+  constructor(callback, ms = 1500 * 1000) {
+    this.isActive = false;
+    this.callback = callback;
     this.default = new Date(ms);
     this.diff;
     this.end;
-    this.status = 0;
   }
 
   getTime(type) {
@@ -23,9 +24,9 @@ export default class Timer {
 
   start() {
     // If timer isn't active
-    if(!this.status) {
-      // Change status
-      this.status = 1;
+    if(!this.isActive) {
+      // Change isActive
+      this.isActive = true;
       // Change buttons text
       startBtn.textContent = 'Pause';
       stopBtn.textContent = 'Stop';
@@ -40,7 +41,7 @@ export default class Timer {
       const self = this;
       function step() {
         // If timer is active
-        if(self.status) {
+        if(self.isActive) {
           // Difference between end and now
           self.diff = new Date(self.end.getTime() - new Date().getTime());
           if(self.diff.getTime() > 0) {
@@ -49,6 +50,8 @@ export default class Timer {
             // Time left - clear interval and reset
             clearInterval(timerId);            
             self.reset();
+
+            self.callback();
           }
         } else {
           clearInterval(timerId);
@@ -57,8 +60,8 @@ export default class Timer {
       
       const timerId = setInterval(step, 100);
     } else {
-      // Change status
-      this.status = 0;
+      // Change isActive
+      this.isActive = false;
       // Change buttons text
       startBtn.textContent = 'Resume';
       stopBtn.textContent = 'Done';
@@ -66,13 +69,16 @@ export default class Timer {
   }
 
   stop() {
+    if (stopBtn.textContent === 'Done') {
+      this.callback();
+    }
     // Reset
     this.reset();
   }
 
   reset() {
-    // Change status
-    this.status = 0;
+    // Change isActive
+    this.isActive = false;
     // Change buttons text
     startBtn.textContent = 'Start';
     stopBtn.textContent = 'Stop';

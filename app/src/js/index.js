@@ -12,7 +12,7 @@ const store = new Store();
 // Init UI
 const ui = new UI;
 // Init timer
-const timer = new Timer;
+const timer = new Timer(timerCallback);
 
 // Events
 document.addEventListener('DOMContentLoaded', () => {
@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Update tasks
   const tasks = store.getTasks();
   tasks.forEach(task => ui.putTask(ui.createTask(task), todoTable));
+  if (tasks.length > 0) {
+    ui.showHide(todoTable);
+  }
 })
 startBtn.addEventListener('click', () => timer.start());
 stopBtn.addEventListener('click', () => timer.stop());
@@ -31,6 +34,9 @@ todoTable.addEventListener('click', (e) => {
     const taskEl = e.target.parentElement.parentElement;
     // Delete from Local Storage
     store.deleteTask(taskEl.id);
+    if (store.getTasks().length === 0) {
+      ui.showHide(todoTable);
+    }
     // Delete from UI
     ui.deleteTask(taskEl);
   }
@@ -118,6 +124,9 @@ function addTask(e) {
     const task = new Task(taskCategory.value, taskDescr.value);
     // Put new task to UI
     ui.putTask(ui.createTask(task), table);
+    if (store.getTasks().length === 0) {
+      ui.showHide(todoTable);
+    }
     // Put new task to Local Storage
     store.addTask(task);
     // Clear inputs
@@ -132,4 +141,19 @@ function addTask(e) {
 
   // Prevent default event
   e.preventDefault();
+}
+
+function timerCallback() {
+  // If we have tasks
+  if(store.getTasks().length > 0) {
+    const taskEl = todoTable.querySelector('tbody > tr');
+    // Delete from Local Storage
+    store.deleteTask(taskEl.id);
+    if (store.getTasks().length === 0) {
+      ui.showHide(todoTable);
+    }
+    // Delete from UI
+    ui.deleteTask(taskEl);
+  }
+  ui.showAlert('Take a short break', 'alert-info', 5000);
 }
