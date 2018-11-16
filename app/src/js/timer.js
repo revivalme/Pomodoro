@@ -1,5 +1,6 @@
 import { startBtn, stopBtn } from './domVars';
 import UI from './ui';
+import { audio } from './audio';
 
 // Init UI object
 const ui = new UI;
@@ -52,6 +53,7 @@ export default class Timer {
             self.reset();
 
             self.callback();
+            audio.play();
           }
         } else {
           clearInterval(timerId);
@@ -71,6 +73,7 @@ export default class Timer {
   stop() {
     if (stopBtn.textContent === 'Done') {
       this.callback();
+      audio.play();
     }
     // Reset
     this.reset();
