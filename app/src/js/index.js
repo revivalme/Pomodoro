@@ -1,7 +1,7 @@
 import 'bootstrap/js/dist/modal';
 import 'bootstrap/js/dist/tab';
 import '../sass/main.sass';
-import { startBtn, stopBtn, form, todoTable } from './domVars';
+import { startBtn, stopBtn, form, todoTable, pomodoroDuration, volume, settingsModalSaveBtn } from './domVars';
 import Task from './task';
 import Timer from  './timer';
 import UI from './ui';
@@ -12,19 +12,37 @@ const store = new Store();
 // Init UI
 const ui = new UI;
 // Init timer
-const timer = new Timer(timerCallback);
+const timer = new Timer(timerCallback, store.getConfig().timerSettings.duration);
 
 // Events
 document.addEventListener('DOMContentLoaded', () => {
   ui.updateTime(`${timer.getTime('default')}`);
 
   // Update tasks
-  const tasks = store.getTasks();
+  const tasks = store.getConfig().tasks;
   tasks.forEach(task => ui.putTask(ui.createTask(task), todoTable));
   if (tasks.length > 0) {
     ui.showHide(todoTable);
   }
-})
+
+  // Put right settings values to UI
+  const duration = store.getConfig().timerSettings.duration;
+  pomodoroDuration.value = duration / 60;
+  for (let i = 0; i < volume.options.length; i++) {
+    if (volume.options[i].value == store.getConfig().notificationSettings.volume) {
+      volume.options[i].selected = true;
+      return;
+    }
+  }
+});
+settingsModalSaveBtn.addEventListener('click', () => {
+  const config = store.getConfig();
+  config.timerSettings.duration = pomodoroDuration.value * 60;
+  config.notificationSettings.volume = volume.value;
+
+  store.updateConfig(config);
+  location.reload();
+});
 startBtn.addEventListener('click', () => timer.start());
 stopBtn.addEventListener('click', () => timer.stop());
 form.addEventListener('submit', (e) => addTask(e));
@@ -34,7 +52,7 @@ todoTable.addEventListener('click', (e) => {
     const taskEl = e.target.parentElement.parentElement;
     // Delete from Local Storage
     store.deleteTask(taskEl.id);
-    if (store.getTasks().length === 0) {
+    if (store.getConfig().tasks.length === 0) {
       ui.showHide(todoTable);
     }
     // Delete from UI
@@ -124,7 +142,7 @@ function addTask(e) {
     const task = new Task(taskCategory.value, taskDescr.value);
     // Put new task to UI
     ui.putTask(ui.createTask(task), table);
-    if (store.getTasks().length === 0) {
+    if (store.getConfig().tasks.length === 0) {
       ui.showHide(todoTable);
     }
     // Put new task to Local Storage
@@ -145,11 +163,11 @@ function addTask(e) {
 
 function timerCallback() {
   // If we have tasks
-  if(store.getTasks().length > 0) {
+  if(store.getConfig().tasks.length > 0) {
     const taskEl = todoTable.querySelector('tbody > tr');
     // Delete from Local Storage
     store.deleteTask(taskEl.id);
-    if (store.getTasks().length === 0) {
+    if (store.getConfig().tasks.length === 0) {
       ui.showHide(todoTable);
     }
     // Delete from UI

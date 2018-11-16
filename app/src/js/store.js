@@ -1,43 +1,56 @@
 export default class Store {
-  getTasks() {
-    // Return array of objects or empty array
-    return JSON.parse(localStorage.getItem('tasks')) || [];
+  getConfig() {
+    const defaultConfig = {
+      tasks: [],
+      timerSettings: {
+        duration: 1500
+      },
+      notificationSettings: {
+        volume: 0.5
+      }
+    }
+    return JSON.parse(localStorage.getItem('config')) || defaultConfig;
+  }
+  
+  updateConfig(config) {
+    localStorage.setItem('config', JSON.stringify(config));
   }
 
   getTask(id) {
-    // Get tasks, find task with equal id
-    const task = this.getTasks().filter(task => task.id == id);
+    const config = this.getConfig();
+    // Find task with equal id
+    const task = config.tasks.filter(task => task.id == id);
     // If task have smthing, then return first array element or -1
     return task.length > 0 ? task[0] : -1;
   }
 
   addTask(taskObj) {
-    // Get tasks
-    const tasks = this.getTasks();
+    const config = this.getConfig();
     // Add new task
-    tasks.push(taskObj);
-    // Save all tasks
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    config.tasks.push(taskObj);
+
+    this.updateConfig(config);
   }
 
   updateTask(id, category, description, done = 0) {
-    // Get tasks, find task with equal id and change data
-    const tasks = this.getTasks();
-    tasks.forEach(task => {
+    const config = this.getConfig();
+    // Find task with equal id and change data
+    config.tasks.forEach(task => {
       if(task.id == id) {
         task.category = category;
         task.description = description;
         task.done = done;
       }
     });
-    // Save all tasks
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+
+    this.updateConfig(config);
   }
 
   deleteTask(id) {
-    // Get tasks, find equal task and delete it
-    const tasks = this.getTasks().filter(task => task.id != id);
-    // Save all tasks
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    const config = this.getConfig();
+    // Find equal task and delete it
+    config.tasks = config.tasks.filter(task => task.id != id);
+
+    this.updateConfig(config);    
   }
 }

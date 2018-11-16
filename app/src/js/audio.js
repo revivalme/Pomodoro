@@ -1,4 +1,8 @@
+import Store from './store';
 import mp3 from '../assets/definite.mp3';
+
+// Init Local Storage
+const store = new Store();
 
 class Audio {
   constructor() {
@@ -30,6 +34,6 @@ class Audio {
 
 const audio = new Audio;
 audio.loadSound(mp3);
-audio.setVolume(0.5);
+audio.setVolume(store.getConfig().notificationSettings.volume);
 
 export { audio };

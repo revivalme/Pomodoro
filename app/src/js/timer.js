@@ -7,10 +7,10 @@ const ui = new UI;
 
 export default class Timer {
   // Default time = 25min
-  constructor(callback, ms = 1500 * 1000) {
+  constructor(callback, ms = 1500) {
     this.isActive = false;
     this.callback = callback;
-    this.default = new Date(ms);
+    this.default = new Date(ms * 1000);
     this.diff;
     this.end;
   }
@@ -20,7 +20,7 @@ export default class Timer {
   }
 
   setDefaultTime(ms) {
-    this.default = new Date(ms);
+    this.default = new Date(ms * 1000);
   }
 
   start() {
