@@ -22,8 +22,9 @@ footer
   background-color: #f5f5f5
 /* ------------------------------------------------- */
 
-#btnStart, #btnStop
+.timerBtn
   width: 150px
+  margin: 7px 10px 7px 0
 
 #alerts 
   z-index: 1
@@ -49,3 +50,10 @@ tr:hover i:not(:last-child)
 
 .settings i
   font-size: 20px
+
+@media only screen and (max-width: 640px)
+  body
+    font-size: 0.75rem
+
+  .timerBtn
+    width: 100%

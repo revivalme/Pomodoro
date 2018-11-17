@@ -25,7 +25,7 @@
   <!-- Main Section -->
   <div class="container text-light">
     <div class="row justify-content-center">
-      <div class="col-6">
+      <div class="col-lg-6">
         <!-- Timer Section -->
         <section id="timer-block" class="card mt-5 bg-primary text-center">
           <div class="card-body">
@@ -34,8 +34,8 @@
             </div>
             <h1 id="timer"></h1>
             <div class="buttons">
-              <button type="button" id="btnStart" class="btn btn-success btn-lg m-3 timerBtn">Start</button>
-              <button type="button" id="btnStop" class="btn btn-danger btn-lg m-3 timerBtn" disabled>Stop</button>
+              <button type="button" id="btnStart" class="btn btn-success btn-lg timerBtn">Start</button>
+              <button type="button" id="btnStop" class="btn btn-danger btn-lg timerBtn" disabled>Stop</button>
             </div>
           </div>
         </section>
@@ -45,20 +45,20 @@
     <!-- TODO Block Section -->
     <section id="todo-block" class="card bg-primary mt-5">
       <div class="card-header text-center">TODO</div>
-      <div class="card-body p-5">
+      <div class="card-body">
         <!-- Form -->
         <form id="form" class="form-row">
-          <div class="col-2">
+          <div class="col-lg-2 mb-2">
             <input list=languages class="form-control" placeholder="Category" id="input-category">
             <datalist id=languages>
               <option value="Work"></option>
               <option value="Personal"></option>
             </datalist> 
           </div>
-          <div class="col-8">
+          <div class="col-md-8 mb-2">
             <input type="text" class="form-control" placeholder="Learn something new" id="input-descr">
           </div>
-          <div class="col">
+          <div class="col-md mb-2">
             <button type="submit" class="btn btn-success w-100">Add new</button>
           </div>
         </form>
@@ -68,8 +68,8 @@
           <thead>
             <tr class="border-bottom-1">
               <th scope="col" style="width: 15%">Category</th>
-              <th scope="col" style="width: 60%">Description</th>
-              <th scope="col" style="width: 25%"></th>
+              <th scope="col" style="width: 55%">Description</th>
+              <th scope="col" style="width: 30%"></th>
             </tr>
           </thead>
           <tbody></tbody>
