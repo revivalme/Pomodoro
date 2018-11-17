@@ -2,7 +2,7 @@ import Store from './store';
 import mp3 from '../assets/definite.mp3';
 
 // Init Local Storage
-const store = new Store();
+const store = new Store;
 
 class Audio {
   constructor() {

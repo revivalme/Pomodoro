@@ -6,9 +6,10 @@ import Task from './task';
 import Timer from  './timer';
 import UI from './ui';
 import Store from './store';
+import { audio } from './audio';
 
 // Init Local Storage
-const store = new Store();
+const store = new Store;
 // Init UI
 const ui = new UI;
 // Init timer
@@ -47,16 +48,17 @@ startBtn.addEventListener('click', () => timer.start());
 stopBtn.addEventListener('click', () => timer.stop());
 form.addEventListener('submit', (e) => addTask(e));
 todoTable.addEventListener('click', (e) => {
+  if(e.target.classList.contains('fa-check')) {
+    const taskEl = e.target.parentElement.parentElement;
+    deleteTask(taskEl);
+
+    audio.play();
+    ui.showAlert('Take a short break', 'alert-info', 5000);
+  }
   // If target click is trash icon
   if(e.target.classList.contains('fa-trash-alt')) {
     const taskEl = e.target.parentElement.parentElement;
-    // Delete from Local Storage
-    store.deleteTask(taskEl.id);
-    if (store.getConfig().tasks.length === 0) {
-      ui.showHide(todoTable);
-    }
-    // Delete from UI
-    ui.deleteTask(taskEl);
+    deleteTask(taskEl);
   }
   // If target click is edit icon
   if(e.target.classList.contains('fa-edit')) {
@@ -136,12 +138,10 @@ function addTask(e) {
   const taskDescr = form.querySelector('#input-descr');
 
   if(taskCategory.value !== '' && taskDescr.value !== '') {
-    // Get table element
-    const table = document.querySelector('#todoTable');
     // Create task obj
     const task = new Task(taskCategory.value, taskDescr.value);
     // Put new task to UI
-    ui.putTask(ui.createTask(task), table);
+    ui.putTask(ui.createTask(task), todoTable);
     if (store.getConfig().tasks.length === 0) {
       ui.showHide(todoTable);
     }
@@ -165,13 +165,17 @@ function timerCallback() {
   // If we have tasks
   if(store.getConfig().tasks.length > 0) {
     const taskEl = todoTable.querySelector('tbody > tr');
-    // Delete from Local Storage
-    store.deleteTask(taskEl.id);
-    if (store.getConfig().tasks.length === 0) {
-      ui.showHide(todoTable);
-    }
-    // Delete from UI
-    ui.deleteTask(taskEl);
+    deleteTask(taskEl);
   }
   ui.showAlert('Take a short break', 'alert-info', 5000);
+}
+
+function deleteTask(taskEl) {
+  // Delete from Local Storage
+  store.deleteTask(taskEl.id);
+  if (store.getConfig().tasks.length === 0) {
+    ui.showHide(todoTable);
+  }
+  // Delete from UI
+  ui.deleteTask(taskEl);
 }

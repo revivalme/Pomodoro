@@ -8,16 +8,9 @@ export default class UI {
   }
 
   createTask(task) {
-    // Create elements
+    // Create container
     const taskContainer = document.createElement('tr');
-    const taskCategory = document.createElement('td');
-    const taskDescription = document.createElement('td');
-    const taskOptions = document.createElement('td');
-
     taskContainer.id = task.id;
-    taskCategory.textContent = task.category;
-    taskDescription.textContent = task.description;
-    taskOptions.className = 'd-flex justify-content-end align-items-center';
 
     // Get time in AM PM format
     let time = new Date(task.addTime).toLocaleString('en-US', { 
@@ -29,19 +22,17 @@ export default class UI {
     if(time.split(':')[0] < 10) {
       time = '0' + time;
     }
-
-
-    taskOptions.innerHTML = `
-      <i class="far fa-star"></i>
-      <i class="fas fa-check text-success"></i>
-      <i class="fas fa-trash-alt text-danger"></i>
-      <span>${time}</span>
-      <i class="fas fa-edit ml-3 text-dark"></i>
+      
+    taskContainer.innerHTML = `
+      <td>${task.category}</td>
+      <td>${task.description}</td>
+      <td class="d-flex justify-content-end align-items-center">
+        <i class="fas fa-check text-success"></i>
+        <i class="fas fa-trash-alt text-danger"></i>
+        <span>${time}</span>
+        <i class="fas fa-edit ml-3 text-dark"></i>
+      </td>
     `;
-
-    taskContainer.appendChild(taskCategory);
-    taskContainer.appendChild(taskDescription);
-    taskContainer.appendChild(taskOptions);
 
     return taskContainer;
   }
@@ -50,6 +41,7 @@ export default class UI {
     // Create elements
     const editContainer = document.createElement('tr');
     editContainer.id = task.id;
+    
     editContainer.innerHTML = `
       <td>
         <input class="form-control edit-category" value="${task.category}">
