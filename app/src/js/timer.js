@@ -1,18 +1,24 @@
 import { startBtn, stopBtn } from './domVars';
 import UI from './ui';
 import { audio } from './audio';
+import Store from './store';
 
 // Init UI object
 const ui = new UI;
+// Init Store object
+const store = new Store;
 
 export default class Timer {
   // Default time = 25min
-  constructor(callback, ms = 1500) {
+  constructor(callback, ms, shortBreak, longBreak) {
     this.isActive = false;
+    this.mode = 1;
     this.callback = callback;
     this.default = new Date(ms * 1000);
-    this.diff;
-    this.end;
+    this.shortBreak = new Date(shortBreak * 1000);
+    this.longBreak = new Date(longBreak * 1000);
+    this.diff = null;
+    this.end = null;
   }
 
   getTime(type) {
@@ -23,18 +29,24 @@ export default class Timer {
     this.default = new Date(ms * 1000);
   }
 
-  start() {
+  /*
+    mode 1 - start default timer
+    mode 2 - start shortBreak timer
+    mode 3 - start longBreak timer
+  */
+  start(mode) {
+    this.mode = mode || this.mode;
     // If timer isn't active
     if(!this.isActive) {
       // Change isActive
       this.isActive = true;
       // Change buttons text
       startBtn.textContent = 'Pause';
-      stopBtn.textContent = 'Stop';
+      stopBtn.textContent = (this.mode === 1) ? 'Stop' : 'Skip';
       stopBtn.disabled = false;
 
-      if(this.diff === undefined) {
-        this.diff = this.default;
+      if(this.diff === null) {
+        this.diff = (this.mode === 1) ? this.default : (this.mode === 2) ? this.shortBreak : this.longBreak;
       }
       // Set end time
       this.end = new Date(new Date().getTime() + this.diff.getTime());
@@ -49,12 +61,19 @@ export default class Timer {
           if(self.diff.getTime() > 0) {
             ui.updateTime(`${self.getTime('diff')}`);
           } else {
-            // Time left - clear interval and reset
-            clearInterval(timerId);            
-            self.reset();
+            // Time left - clear interval
+            clearInterval(timerId);
 
-            self.callback();
-            audio.play();
+            if (self.mode === 1) {
+              self.reset();
+              self.callback();
+              audio.play();
+
+              store.incrementCompleted();
+              self.start(store.getConfig().completed % 4 !== 0 ? 2 : 3);
+            } else {
+              self.reset();
+            }
           }
         } else {
           clearInterval(timerId);
@@ -67,28 +86,35 @@ export default class Timer {
       this.isActive = false;
       // Change buttons text
       startBtn.textContent = 'Resume';
-      stopBtn.textContent = 'Done';
+      stopBtn.textContent = (this.mode === 1) ? 'Done' : 'Skip';
     }
   }
 
   stop() {
     if (stopBtn.textContent === 'Done') {
+      this.reset();
       this.callback();
       audio.play();
+      
+      store.incrementCompleted();
+      this.start(store.getConfig().completed % 4 !== 0 ? 2 : 3);
+    } else {
+      this.reset();
     }
-    // Reset
-    this.reset();
   }
 
   reset() {
-    // Change isActive
+    // Change settings
     this.isActive = false;
+    this.diff = null;
+    this.end = null;
+    this.mode = 1;
+
     // Change buttons text
     startBtn.textContent = 'Start';
     stopBtn.textContent = 'Stop';
     stopBtn.disabled = true;
-    // Change timer value to default
-    this.diff = new Date(this.default);
+
     // Update UI
     ui.updateTime(`${this.getTime('default')}`);
   }

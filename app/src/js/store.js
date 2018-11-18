@@ -2,8 +2,11 @@ export default class Store {
   getConfig() {
     const defaultConfig = {
       tasks: [],
+      completed: 0,
       timerSettings: {
-        duration: 1500
+        duration: 1500,
+        shortBreak: 300,
+        longBreak: 900
       },
       notificationSettings: {
         volume: 0.5
@@ -14,6 +17,12 @@ export default class Store {
   
   updateConfig(config) {
     localStorage.setItem('config', JSON.stringify(config));
+  }
+
+  incrementCompleted() {
+    const config = this.getConfig();
+    config.completed++;
+    this.updateConfig(config);
   }
 
   getTask(id) {

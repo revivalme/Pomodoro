@@ -1,7 +1,7 @@
 import 'bootstrap/js/dist/modal';
 import 'bootstrap/js/dist/tab';
 import '../sass/main.sass';
-import { startBtn, stopBtn, form, todoTable, pomodoroDuration, volume, settingsModalSaveBtn } from './domVars';
+import { startBtn, stopBtn, form, todoTable, pomodoroDuration, shortBreakDuration, longBreakDuration, volumeValue, settingsModalSaveBtn } from './domVars';
 import Task from './task';
 import Timer from  './timer';
 import UI from './ui';
@@ -10,10 +10,12 @@ import { audio } from './audio';
 
 // Init Local Storage
 const store = new Store;
+// Settings config destruction
+const { timerSettings: { duration, shortBreak, longBreak }, notificationSettings: { volume } } = store.getConfig();
 // Init UI
 const ui = new UI;
 // Init timer
-const timer = new Timer(timerCallback, store.getConfig().timerSettings.duration);
+const timer = new Timer(timerCallback, duration, shortBreak, longBreak);
 
 // Events
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,11 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Put right settings values to UI
-  const duration = store.getConfig().timerSettings.duration;
   pomodoroDuration.value = duration / 60;
-  for (let i = 0; i < volume.options.length; i++) {
-    if (volume.options[i].value == store.getConfig().notificationSettings.volume) {
-      volume.options[i].selected = true;
+  shortBreakDuration.value = shortBreak / 60;
+  longBreakDuration.value = longBreak / 60;
+
+  for (let i = 0; i < volumeValue.options.length; i++) {
+    if (volumeValue.options[i].value == volume) {
+      volumeValue.options[i].selected = true;
       return;
     }
   }
@@ -39,7 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
 settingsModalSaveBtn.addEventListener('click', () => {
   const config = store.getConfig();
   config.timerSettings.duration = pomodoroDuration.value * 60;
-  config.notificationSettings.volume = volume.value;
+  config.timerSettings.shortBreak = shortBreakDuration.value * 60;
+  config.timerSettings.longBreak = longBreakDuration.value * 60;
+  config.notificationSettings.volume = volumeValue.value;
 
   store.updateConfig(config);
   location.reload();
@@ -54,6 +60,10 @@ todoTable.addEventListener('click', (e) => {
 
     audio.play();
     ui.showAlert('Take a short break', 'alert-info', 5000);
+
+    timer.reset();
+    store.incrementCompleted();
+    timer.start(store.getConfig().completed % 4 !== 0 ? 2 : 3);
   }
   // If target click is trash icon
   if(e.target.classList.contains('fa-trash-alt')) {
